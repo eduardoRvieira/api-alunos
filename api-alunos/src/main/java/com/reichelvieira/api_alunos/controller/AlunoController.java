@@ -26,7 +26,7 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
-    public Aluno obterAlunoPorId(@PathVariable int id){
+    public AlunoResponse obterAlunoPorId(@PathVariable int id){
         return service.obterAlunoPorId(id);
     }
 }

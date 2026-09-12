@@ -35,10 +35,11 @@ public class AlunoService {
         return alunosResponse;
     }
 
-    public Aluno obterAlunoPorId(int id){
+    public AlunoResponse obterAlunoPorId(int id){
+
         for (Aluno a : alunos){
             if (a.getId() == id){
-                return a;
+                return new AlunoResponse(id, a.getNome(), a.getEmail(), a.getDataNascimento(), a.getMedia());
             }
         }
         return null;
