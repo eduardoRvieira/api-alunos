@@ -1,5 +1,6 @@
 package com.reichelvieira.api_alunos.service;
 
+import com.reichelvieira.api_alunos.dto.AlunoResponse;
 import com.reichelvieira.api_alunos.model.Aluno;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,29 @@ public class AlunoService {
         alunos.add(new Aluno(3, "Maria", "maria@gmail.com", "senha3", LocalDate.of(1999, 2, 2), 7));
     }
 
-    public List<Aluno> listarAlunos(){
-        return alunos;
+    public List<AlunoResponse> listarAlunos(){
+
+        List<AlunoResponse> alunosResponse = new ArrayList<>();
+
+        for (Aluno a : alunos){
+            alunosResponse.add(
+                    new AlunoResponse(
+                            a.getId(),
+                            a.getNome(),
+                            a.getEmail(),
+                            a.getDataNascimento(),
+                            a.getMedia()));
+        }
+        return alunosResponse;
+    }
+
+    public Aluno obterAlunoPorId(int id){
+        for (Aluno a : alunos){
+            if (a.getId() == id){
+                return a;
+            }
+        }
+        return null;
     }
 
 
