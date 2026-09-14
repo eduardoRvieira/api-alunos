@@ -1,5 +1,6 @@
 package com.reichelvieira.api_alunos.service;
 
+import com.reichelvieira.api_alunos.dto.AlunoRequest;
 import com.reichelvieira.api_alunos.dto.AlunoResponse;
 import com.reichelvieira.api_alunos.model.Aluno;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,8 @@ public class AlunoService {
         return null;
     }
 
+    public void cadastrarAluno(AlunoRequest request){
+        
+    }
 
 }
