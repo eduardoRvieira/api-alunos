@@ -1,13 +1,12 @@
 package com.reichelvieira.api_alunos.controller;
 
+import com.reichelvieira.api_alunos.dto.AlunoRequest;
 import com.reichelvieira.api_alunos.dto.AlunoResponse;
 import com.reichelvieira.api_alunos.model.Aluno;
 import com.reichelvieira.api_alunos.service.AlunoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -28,5 +27,10 @@ public class AlunoController {
     @GetMapping("/{id}")
     public AlunoResponse obterAlunoPorId(@PathVariable int id){
         return service.obterAlunoPorId(id);
+    }
+
+    @PostMapping("/cadastrar")
+    public AlunoResponse cadastrarAluno(@RequestBody AlunoRequest request){
+        return service.cadastrarAluno(request);
     }
 }

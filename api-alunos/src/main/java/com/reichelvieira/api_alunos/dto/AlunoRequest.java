@@ -1,11 +1,24 @@
 package com.reichelvieira.api_alunos.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class AlunoRequest {
+    @NotBlank
+    @Size(max = 50)
     private String nome;
+    @NotBlank
+    @Email
+    @Size(max = 50, min = 5)
     private String email;
+    @NotBlank
+    @Size(max = 50)
     private String senha;
+    @NotNull
     private LocalDate dataNascimento;
     private double media;
 

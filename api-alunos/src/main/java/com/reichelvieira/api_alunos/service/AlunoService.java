@@ -12,12 +12,11 @@ import java.util.List;
 @Service
 public class AlunoService {
     private final List<Aluno> alunos;
+    private int id = 1;
 
     public AlunoService(){
         alunos = new ArrayList<>();
-        alunos.add(new Aluno(1, "Eduardo", "eduardo@gmail.com", "senha", LocalDate.of(2000, 8, 20), 8.7));
-        alunos.add(new Aluno(2, "Ana", "ana@gmail.com", "senha2", LocalDate.of(2001, 9, 11), 10));
-        alunos.add(new Aluno(3, "Maria", "maria@gmail.com", "senha3", LocalDate.of(1999, 2, 2), 7));
+
     }
 
     public List<AlunoResponse> listarAlunos(){
@@ -46,8 +45,23 @@ public class AlunoService {
         return null;
     }
 
-    public void cadastrarAluno(AlunoRequest request){
-        
+    public AlunoResponse cadastrarAluno(AlunoRequest request){
+        alunos.add(new Aluno(id,
+                request.getNome(),
+                request.getEmail(),
+                request.getSenha(),
+                request.getDataNascimento(),
+                request.getMedia()));
+
+        id++;
+
+        Aluno alunoCadastrado = alunos.getLast(); // alunos.get(alunos.size() - 1);
+
+        return new AlunoResponse(alunoCadastrado.getId(),
+                alunoCadastrado.getNome(),
+                alunoCadastrado.getEmail(),
+                alunoCadastrado.getDataNascimento(),
+                alunoCadastrado.getMedia());
     }
 
 }
