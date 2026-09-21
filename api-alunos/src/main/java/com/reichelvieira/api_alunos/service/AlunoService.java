@@ -66,7 +66,7 @@ public class AlunoService {
     public AlunoResponse atualizarAluno(int id, AlunoRequest request) {
 
         for (Aluno a : alunos){
-            if (request.getEmail().equalsIgnoreCase(a.getEmail())){
+            if (request.getEmail().equalsIgnoreCase(a.getEmail()) && id != a.getId()){
                 throw new RuntimeException("Email já cadastrado");
             }
         }
