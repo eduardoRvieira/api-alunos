@@ -11,57 +11,73 @@ import java.util.List;
 
 @Service
 public class AlunoService {
+
     private final List<Aluno> alunos;
+
     private int id = 1;
 
-    public AlunoService(){
-        alunos = new ArrayList<>();
-
+    public AlunoService() {
+        alunos = new ArrayList<Aluno>();
     }
 
-    public List<AlunoResponse> listarAlunos(){
+    public List<AlunoResponse> listarAlunos() {
+        List<Aluno> alunosModel = alunos;
 
         List<AlunoResponse> alunosResponse = new ArrayList<>();
 
-        for (Aluno a : alunos){
-            alunosResponse.add(
-                    new AlunoResponse(
-                            a.getId(),
-                            a.getNome(),
-                            a.getEmail(),
-                            a.getDataNascimento(),
-                            a.getMedia()));
+        for (Aluno a : alunosModel) {
+            alunosResponse
+                    .add(new AlunoResponse(a.getId(), a.getNome(), a.getEmail(), a.getDataNascimento(), a.getMedia()));
         }
         return alunosResponse;
+
     }
 
-    public AlunoResponse obterAlunoPorId(int id){
-
-        for (Aluno a : alunos){
-            if (a.getId() == id){
+    public AlunoResponse obterAlunoPorId(int id) {
+        for (Aluno a : alunos) {
+            if (a.getId() == id) {
                 return new AlunoResponse(id, a.getNome(), a.getEmail(), a.getDataNascimento(), a.getMedia());
             }
         }
-        return null;
+        throw new RuntimeException("Aluno não encontrado");
     }
 
-    public AlunoResponse cadastrarAluno(AlunoRequest request){
-        alunos.add(new Aluno(id,
-                request.getNome(),
-                request.getEmail(),
-                request.getSenha(),
-                request.getDataNascimento(),
+    public AlunoResponse cadastrarAluno(AlunoRequest request) {
+        alunos.add(new Aluno(id, request.getNome(), request.getEmail(), request.getSenha(), request.getDataNascimento(),
                 request.getMedia()));
 
         id++;
 
-        Aluno alunoCadastrado = alunos.getLast(); // alunos.get(alunos.size() - 1);
+        Aluno alunoCadastrado = alunos.get(alunos.size() - 1 /* alunos.getLast() */);
 
-        return new AlunoResponse(alunoCadastrado.getId(),
-                alunoCadastrado.getNome(),
-                alunoCadastrado.getEmail(),
-                alunoCadastrado.getDataNascimento(),
-                alunoCadastrado.getMedia());
+        return new AlunoResponse(alunoCadastrado.getId(), alunoCadastrado.getNome(), alunoCadastrado.getEmail(),
+                alunoCadastrado.getDataNascimento(), alunoCadastrado.getMedia());
+
+    }
+
+    public AlunoResponse atualizarAluno(int id, AlunoRequest request) {
+
+        for (Aluno a : alunos) {
+            if (a.getId() == id) {
+                a.setNome(request.getNome());
+                a.setEmail(request.getEmail());
+                a.setSenha(request.getSenha());
+                a.setDataNascimento(request.getDataNascimento());
+                a.setMedia(request.getMedia());
+                return new AlunoResponse(id, a.getNome(), a.getEmail(), a.getDataNascimento(), a.getMedia());
+            }
+        }
+        return null;
+
+    }
+
+    public void excluirAluno(int id) {
+        for (Aluno a : alunos) {
+            if (a.getId() == id) {
+                alunos.remove(a);
+                return;
+            }
+        }
     }
 
 }

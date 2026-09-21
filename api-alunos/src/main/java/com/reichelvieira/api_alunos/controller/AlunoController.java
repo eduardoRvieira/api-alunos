@@ -4,6 +4,8 @@ import com.reichelvieira.api_alunos.dto.AlunoRequest;
 import com.reichelvieira.api_alunos.dto.AlunoResponse;
 import com.reichelvieira.api_alunos.model.Aluno;
 import com.reichelvieira.api_alunos.service.AlunoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,22 +17,35 @@ public class AlunoController {
 
     private final AlunoService service;
 
-    public AlunoController(AlunoService service){
+    public AlunoController(AlunoService service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<AlunoResponse> listarAlunos(){
-        return service.listarAlunos();
+    public ResponseEntity<List<AlunoResponse>> listarAlunos() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listarAlunos());
     }
 
     @GetMapping("/{id}")
-    public AlunoResponse obterAlunoPorId(@PathVariable int id){
-        return service.obterAlunoPorId(id);
+    public ResponseEntity<AlunoResponse> obterAlunoPorId(@PathVariable int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.obterAlunoPorId(id));
     }
 
-    @PostMapping("/cadastrar")
-    public AlunoResponse cadastrarAluno(@RequestBody AlunoRequest request){
-        return service.cadastrarAluno(request);
+    @PostMapping
+    public ResponseEntity<AlunoResponse> cadastrarAluno(@Valid @RequestBody AlunoRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarAluno(request));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AlunoResponse> atualizarAluno(@PathVariable int id,
+                                                        @Valid @RequestBody AlunoRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarAluno(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirAluno(@PathVariable int id) {
+        service.excluirAluno(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
