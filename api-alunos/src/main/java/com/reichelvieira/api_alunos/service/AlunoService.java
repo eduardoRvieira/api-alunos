@@ -43,10 +43,18 @@ public class AlunoService {
     }
 
     public AlunoResponse cadastrarAluno(AlunoRequest request) {
+
+        boolean emailExiste = alunos.stream().anyMatch(aluno -> aluno.getEmail().equalsIgnoreCase(request.getEmail()));
+
+        if (emailExiste){
+            throw new RuntimeException("Email já cadastrado");
+        }
+        
         alunos.add(new Aluno(id, request.getNome(), request.getEmail(), request.getSenha(), request.getDataNascimento(),
-                request.getMedia()));
+                    request.getMedia()));
 
         id++;
+
 
         Aluno alunoCadastrado = alunos.get(alunos.size() - 1 /* alunos.getLast() */);
 
@@ -66,6 +74,8 @@ public class AlunoService {
                 a.setMedia(request.getMedia());
                 return new AlunoResponse(id, a.getNome(), a.getEmail(), a.getDataNascimento(), a.getMedia());
             }
+
+            throw new RuntimeException("Aluno não encontrado");
         }
         return null;
 
