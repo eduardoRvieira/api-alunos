@@ -1,21 +1,22 @@
 package com.reichelvieira.api_alunos.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler{
 
     @ExceptionHandler(AlunoNaoEncontradoException.class)
-    public ResponseEntity<String> handleAlunoNaoEncontradoException(AlunoNaoEncontradoException ex){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<ErroResponse> handleAlunoNaoEncontradoException(AlunoNaoEncontradoException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErroResponse(404, ex.getMessage(), Instant.now()));
     }
 
     @ExceptionHandler(EmailJaCadastradoException.class)
-    public ResponseEntity<String> handleEmailJaCadastradoException(EmailJaCadastradoException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    public ResponseEntity<ErroResponse> handleEmailJaCadastradoException(EmailJaCadastradoException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErroResponse(409, ex.getMessage(), Instant.now()));
     }
 }
