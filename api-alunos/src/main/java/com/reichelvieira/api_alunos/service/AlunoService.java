@@ -82,11 +82,9 @@ public class AlunoService {
                 a.setMedia(request.getMedia());
                 return new AlunoResponse(id, a.getNome(), a.getEmail(), a.getDataNascimento(), a.getMedia());
             }
-
-            throw new AlunoNaoEncontradoException("Aluno não encontrado");
         }
-        return null;
 
+        throw new AlunoNaoEncontradoException("Aluno não encontrado");
     }
 
     public void excluirAluno(int id) {
